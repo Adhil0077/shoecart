@@ -1,0 +1,142 @@
+<%- include ('../layout/user/header.ejs') %>
+  <%- include ('../layout/user/navbar.ejs') %>
+
+
+
+
+<div style="font-weight: bold;" id="vieworder">
+
+  <div class="card text-center">
+    <div class="card-header">
+      
+    </div>
+    <div class="card-body container">
+      <h5 class="card-title">Order ID</h5>
+      <p class="card-text"><%=ordersDetails.orderId %></p>
+
+      <table class="table table-bordered" id="productTables">
+        <thead>
+          <tr>
+            <th scope="col">Address</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total price</th>
+            <th scope="col">Total Cart price</th>
+            <th scope="col">Payment</th>
+            <th scope="col">Action</th> 
+
+          </tr>
+        </thead>
+        <tbody>
+  
+
+          <tr>
+            
+        <td style="width: 450px;"><%=ordersDetails.deliveryAddress %></td>
+
+
+        <td  style="width: 200px;">
+          <% ordersDetails.product.forEach(data => { %>
+            ‣<%= data.productId.productName %> <br>
+          <% });  %>
+        </td>
+
+
+        <td  style="width: 70px; text-align: center;"><% ordersDetails.product.forEach(data => {%>
+          <%=data.quantity  %> <br>
+       <% }); %></td>
+
+
+
+             <td><%ordersDetails.product.forEach(data => {%>
+              <%=data.productId.price %><br>
+        <%});  %></td> 
+
+        <td><%ordersDetails.product.forEach(data => {%>
+          <%=data.singleTotal %><br>
+    <%});  %></td> 
+
+        <td style="width: 450px;"><%=ordersDetails.total%></td>
+
+
+        <td  style="width: 100px;">
+          <%=ordersDetails.paymentType  %>
+        </td>
+
+
+      
+       
+        
+<% if(ordersDetails.status!='Delivered' && ordersDetails.status!='Returned' && ordersDetails.status!='Return Pendding'  ) {%>
+  <td  style="width: 100px;">
+          <a  class="btn btn-outline-danger" id="cancelbnt" onclick="cancel('Cancelled','<%=ordersDetails.orderId%>')">Cancel <i class="fa-solid fa-ban"></i></a>         
+
+      <%}else if(ordersDetails.status=='Returned'){%>
+    <td  style="width: 100px;">
+      <a  class="" id="returnbtn">Returned</a>         
+    </td>
+
+      <%}else if(ordersDetails.status=='Return Pendding'){%>
+        <td  style="width: 100px;">
+          <a  class="" id="returnbtn">Return Pending</a>         
+        </td>
+    
+          <%}else{%> 
+        <td  style="width: 100px;">
+          <a   class="btn btn-outline-danger" id="returnbtn" onclick="returnitem('Return Pendding','<%=ordersDetails.orderId%>')">Return <i class="fa-solid fa-arrow-turn-down-left"></i></a>         
+        </td>
+    
+          <%}%>
+      
+
+          </tr>
+    
+        </tbody>
+      </table>
+
+     
+    </div>
+    <div class="card-footer text-muted">
+     <a href="/orderreceipt" class="btn btn-outline-success"><i class="fa-solid fa-arrow-left"></i> Go Back</a>
+    </div>
+    
+  </div>
+</div>
+
+
+<script>
+function cancel(newStatus,orderId){
+  $.ajax({
+    url:'/statusUpdated',
+    method:'POST',
+    data:{
+      newStatus:newStatus,
+      orderId:orderId
+    },
+    success:function(Response){
+      $('#cancelbnt').html('Cancelled')
+    }
+  })
+}
+</script>
+
+<script>
+function returnitem(newStatus,orderId){
+  $.ajax({
+    url:'/statusUpdated',
+    method:'POST',
+    data:{
+      newStatus:newStatus,
+      orderId:orderId
+    },
+    success:function(Response){
+      $('#returnbtn').html('Return Pendding')
+    }
+  })
+}
+</script>
+
+
+
+<%- include ('../layout/user/footer.ejs') %>

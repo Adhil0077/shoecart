@@ -1,0 +1,98 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+
+      <main id="main" class="main">
+
+        <div class="pagetitle">
+          <h1>Users</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Users</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+        <div class="table-responsive text-nowrap">
+          <!--Table-->
+          <table class="table table-striped" id="productTables">
+
+            <!--Table head-->
+            <thead>
+              <tr>
+                <th>NO</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone No</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Action</th>
+
+              </tr>
+            </thead>
+
+            <!--Table body-->
+            <tbody>
+              <% user.forEach((element,index)=> {%>
+                <tr>
+                  <th scope="row">
+                    <%= index+1 %>
+                  </th>
+                  <td>
+                    <%= element.username %>
+                  </td>
+                  <td>
+                    <%= element.email %>
+                  </td>
+                  <td>
+                    <%= element.phonenumber %>
+                  </td>
+                  <td>
+
+                    <%= element.address[0].name%>,
+                     <%= element.address[0].housename%>,
+                     <%= element.address[0].street%>, <br>
+                     <%= element.address[0].district%>,
+                     <%= element.address[0].state%>, <br>
+                     <%= element.address[0].pincode%>,
+                     <%= element.address[0].country%>,
+                     <%= element.address[0].phone%>
+                  </td>
+                  <td>
+                    <% if(element.status==true) {%>
+                      <p style="color: red;">Blocked</p>
+                      <%}else{%>
+                        <p style="color: green;">Active</p>
+                        <%}%>
+                  </td>
+
+                  <td>
+                    <a class="text-decoration-none text-white" href="/admin/user/blockuser/<%= element._id %>">
+                      <% if(element.status==true){%>
+                           <button class="btn btn-primary"> unblock</button>
+                        <%}else{%>
+                          <button type="button" class="btn btn-danger">block</button>
+                          <%}%>
+                    </a>
+                  </td>
+                  </tr>
+                  <% }); %>
+
+            </tbody>
+            <!--Table body-->
+
+
+          </table>
+          <!--Table-->
+        </div>
+        </section>
+
+      </main><!-- End #main -->
+
+      <script>
+        $(document).ready( function () {
+        $('#productTables').DataTable();
+    } );
+    </script>
+
+      <%- include('../layout/admin/footer.ejs')%>

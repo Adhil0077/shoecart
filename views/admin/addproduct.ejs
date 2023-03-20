@@ -1,0 +1,88 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+
+
+      <main id="main" class="main">
+
+        <div class="pagetitle">
+          <h1>Add Product</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Add Product</li>
+            </ol>
+          </nav>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="formGroupExampleInput"> Product</label>
+            <input type="text" name="productName" class="form-control" id="formGroupExampleInput"
+              placeholder="Enter Product Name" required>
+          </div>
+          <label for="">Category</label>
+          <select class="form-control" name="category" palceholder="Select Category">
+            <option>Select the Category</option>
+            <% sendcategory.forEach(element=> { %>
+
+              <% if(element.unlist==false) {%>
+                <option value="<%=element._id%>">
+                  <%= element.category %>
+                </option>
+                <%}%>
+
+
+                  <% }); %>
+          </select>
+          <div class="form-group">
+            <label for="formGroupExampleInput2"> Description</label>
+            <input type="text" name="description" class="form-control" id="formGroupExampleInput2"
+              placeholder="Enter Stock" required>
+          </div>
+          <div class="form-group">
+            <label for="formGroupExampleInput2"> Stock</label>
+            <input type="text" name="stock" class="form-control" id="formGroupExampleInput2" placeholder="Enter Stock"
+              required>
+          </div>
+          <div class="form-group">
+            <label for="formGroupExampleInput2"> Price</label>
+            <input type="text" name="price" class="form-control" id="formGroupExampleInput2" placeholder="Enter Price"
+              required>
+          </div>
+          <div class="form-group">
+            <label for="formGroupExampleInput2"> Image</label>
+            <input multiple type="file" name="image" class="form-control" id="formGroupExampleInput2" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-primary mb-2 mt-3">Submit</button>
+        </form>
+
+      </main>
+
+  <script>
+            function show(input) {
+              debugger;
+              var validExtensions = ['jpg', 'png', 'jpeg']; //array of valid extensions
+              var fileName = input.files[0].name;
+              var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+              if ($.inArray(fileNameExt, validExtensions) == -1) {
+                input.type = ''
+                input.type = 'file'
+                $('#user_img').attr('src', "");
+                alert("Only these file types are accepted : " + validExtensions.join(', '));
+              }
+              else {
+                if (input.files && input.files[0]) {
+                  var filerdr = new FileReader();
+                  filerdr.onload = function (e) {
+                    $('#user_img').attr('src', e.target.result);
+                  }
+                  filerdr.readAsDataURL(input.files[0]);
+                }
+              }
+            }
+          </script>
+
+
+
+
+      <%- include('../layout/admin/footer.ejs')%>

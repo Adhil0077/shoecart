@@ -1,0 +1,105 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+
+<style>
+  @media print{
+    .noPrint{
+      display:none;
+    }
+  }
+</style>
+
+    <main id="main" class="main">
+
+      <div class="pagetitle noPrint">
+        <h1> Sales Report</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/sales">sales Report</a></li>
+            <li class="breadcrumb-item active">Sales Report</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+     <div><button class="btn btn-warning mb-4 noPrint" onclick="printSalesReport()"><a style="color: white;" href="">PRINT</a></button></div>
+
+      <table class="table table-bordered  " style="font-size: 13px;" id="productTables">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Order Id</th>
+            <th scope="col"> Address</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Product Total</th>
+            <th scope="col">Payment</th>
+            <th scope="col">Total Price</th>
+          
+
+          </tr>
+        </thead>
+        <tbody>
+          <% ordersDetails.forEach((element,index)=> {%>
+
+
+            <tr>
+              <th scope="row">
+                <%=index+1 %>
+              </th>
+
+              <th scope="row">
+                <%=element.date.toLocaleDateString()%>
+              </th>
+
+              <td style="width: 350px;">
+                <%=element.orderId %>
+              </td>
+
+              <td style="width: 450px;">
+                <%=element.deliveryAddress %>
+              </td>
+
+              <td  style="width: 200px;">
+        <% element.product.forEach((data) => { %>
+          <%= data.productId.productName %> <br>
+        <% });  %>
+      </td>
+
+              <td  style="width: 70px; text-align: center;"><% element.product.forEach((data) => {%>
+        <%=data.quantity  %> <br>
+     <% }); %></td>
+
+
+              <td><%element.product.forEach((data)=> {%>
+        <%=data.productId.price %><br>
+      <%});  %></td> 
+
+      <td><%element.product.forEach((data)=> {%>
+        <%=data.singleTotal %><br>
+      <%});  %></td> 
+
+              <td style="width: 100px;">
+                <%=element.paymentType %>
+              </td>
+              <td style="width: 100px;">
+                <%=element.total %>
+              </td>
+            </tr>
+<%})%>
+    </main>
+
+
+    <script>
+
+      function printSalesReport(){
+        window.print()
+      }
+
+    </script>
+
+    
+
+      <%- include('../layout/admin/footer.ejs')%>

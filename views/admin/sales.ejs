@@ -1,0 +1,26 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+    <main id="main" class="main">
+
+      <div class="pagetitle">
+        <h1> Sales Report</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Sales Report</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+
+      <form action="" method="post">
+        <label for="">From:</label>
+        <input type="date" id="from" name="from" required>
+        <label for="">Till:</label>
+        <input type="date" id="till" name="till" required>
+        <button class="btn btn-warning"><a style="color: white;" >Find</a></button>
+      </form>
+
+    </main>
+    <%- include('../layout/admin/footer.ejs')%>

@@ -1,0 +1,160 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+
+
+      <main id="main" class="main">
+
+        <div class="pagetitle">
+          <h1>All Orders</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Orders</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+
+        <table class="table table-bordered  " style="font-size: 13px;" id="productTables">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Order Id</th>
+              <th scope="col"> Address</th>
+              <th scope="col">Payment</th>
+              <th scope="col">Status</th>
+              <th scope="col"></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <% ordersDetails.forEach((element,index)=> {%>
+
+
+              <tr>
+                <th scope="row">
+                  <%=index+1 %>
+                </th>
+
+                <td style="width: 350px;">
+                  <%=element.orderId %>
+                </td>
+
+                <td style="width: 450px;">
+                  <%=element.deliveryAddress %>
+                </td>
+
+               
+
+               
+
+
+               
+
+                <td style="width: 100px;">
+                  <%=element.paymentType %>
+                </td>
+
+
+                <td>
+                  <div class="dropdown ">
+                    <button class="btn btn-light " type="button" id="dropdownMenuButton_<%=element._id%>"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <p class="changeStatus" >
+                        <%=element.status %>
+                      </p>
+                    </button>
+
+                    <% if(element.status=='Pendding' ) {%>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a style="color: rgb(180, 96, 0);" class="dropdown-item btn"
+                          onclick="status('Confirmed', '<%=element.orderId%>', 'dropdownMenuButton_<%=element._id%>')">Confirm</a>
+                        <a style="color: rgb(192, 192, 0);" class="dropdown-item btn"
+                          onclick="status('Shipped', '<%=element.orderId%>', 'dropdownMenuButton_<%=element._id%>')">Ship</a>
+                        <a style="color: rgb(22, 147, 0);" class="dropdown-item btn"
+                          onclick="status('Delivered', '<%=element.orderId%>', 'dropdownMenuButton_<%=element._id%>')">Deliver</a>
+                      </div>
+                      <%}else if(element.status=='Confirmed' ){%>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a style="color: rgb(192, 192, 0);" class="dropdown-item btn"
+                            onclick="status('Shipped', '<%=element.orderId%>', 'dropdownMenuButton_<%=element._id%>')">Ship</a>
+                          <a style="color: rgb(22, 147, 0);" class="dropdown-item btn"
+                            onclick="status('Delivered', '<%=element.orderId%>', 'dropdownMenuButton_<%=element._id%>')">Deliver</a>
+                        </div>
+                        <%}else if(element.status=='Shipped' ){%>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a style="color: rgb(22, 147, 0);" class="dropdown-item btn"
+                              onclick="status('Delivered', '<%=element.orderId%>', 'dropdownMenuButton_<%=element._id%>')">Deliver</a>
+                          </div>
+                          <%}else if(element.status=='Delivered' ){%>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a style="color: rgb(147, 0, 0);" class="dropdown-item btn">Already Deliverd</a>
+                            </div>
+                            <%}else if(element.status=='Payment Failed' ){%>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a style="color: rgb(147, 0, 0);" class="dropdown-item btn">Online Payment Failed</a>
+                              </div>
+                              <%}else if(element.status=='Return Pendding' ){%>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a style="color: rgb(22, 147, 0);" class="dropdown-item btn"
+                                    onclick="status('Returned', '<%=element.orderId%>', 'dropdownMenuButton_<%=element._id%>')">Accept Return</a>
+                                </div>
+                                <%}%>
+
+
+                  </div>
+                </td>
+
+
+                <td style="text-align:center;">
+                  <a href="/admin/vieworders/<%=element._id%>">
+                    <i class="fa-solid fa-eye"></i>
+                  </a>
+                </td>
+
+
+              </tr>
+
+
+              <% }); %>
+
+                <script>
+                  function status(newStatus, orderId, buttonId) {
+                    $.ajax({
+                      url: '/admin/statusUpdate',
+                      method: 'POST',
+                      data: {
+                        newStatus: newStatus,
+                        orderId: orderId
+                      },
+                      success: function (response) {
+                        // Update the text of the button with the new status
+                        $('#productTables').load('/admin/orders #productTables');
+                        // location.href='/admin/orders'
+                      },
+                      error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error changing status:', errorThrown);
+                      }
+                    });
+                  }
+
+
+
+
+                </script>
+
+
+
+          </tbody>
+        </table>
+
+      </main><!-- End #main -->
+
+
+      <script>
+        $(document).ready(function () {
+          $('#productTables').DataTable();
+        });
+      </script>
+
+      <%- include('../layout/admin/footer.ejs')%>

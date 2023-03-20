@@ -1,0 +1,87 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+
+      <main id="main" class="main">
+
+        <div class="pagetitle">
+          <h1>Product List</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Product List</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+
+        <table class="table" id="productTables">
+          <thead>
+            <tr>
+              <th scope="col">NO</th>
+              <th scope="col">Product</th>
+              <th scope="col">Category</th>
+              <th scope="col">Description</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Price</th>
+              <th scope="col">image</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% vsendproduct.forEach((x,index)=>{ %>
+              <tr>
+              
+                <td scope="row">
+                  <%= index+1 %>
+                </td>
+                <td>
+                  <%= x.productName %>
+                </td>
+                <td>
+                  <%= x.category.category %>
+                </td>
+                <td class="truncate">
+                  <%= x.description %>
+                </td>
+                <td>
+                  <%= x.stock %>
+                </td>
+                <td>
+                  <%= x.price %>
+                </td>
+                <td>
+                  <img src="/images/<%=x.image[0]%>" alt="" width="70px">
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger"><a class="text-decoration-none text-white"
+                      href="/admin/productlist/editproductview/<%= x._id %>">Edit</a></button>
+
+                  <!-- <button class="btn btn-primary"><a class="text-decoration-none text-white"
+                      href="/admin/productlist/productListDelete/<%= x._id %>">Delete</a></button> -->
+
+                 <a href="/admin/productlist/unlist/<%=x._id%>">
+                <% if(x.unlist ==true){%>
+                  <button type="button" class="btn btn-warning">list</button>   
+                  <%}else{%>
+                    <button type="button" class="btn btn-warning">unlist</button> 
+                    <%}%>
+                
+                </a>
+
+                </td>
+              </tr>
+              <% }); %>
+
+
+          </tbody>
+        </table>
+
+      </main><!-- End #main -->
+
+      <script>
+        $(document).ready( function () {
+        $('#productTables').DataTable();
+    } );
+    </script>
+
+      <%- include('../layout/admin/footer.ejs')%>

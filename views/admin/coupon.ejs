@@ -1,0 +1,164 @@
+<%- include('../layout/admin/header.ejs')%>
+<%- include('../layout/admin/navbar.ejs')%>
+<%- include('../layout/admin/sidebar.ejs')%>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.js"
+  integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Coupon</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+          <li class="breadcrumb-item active">Coupon</li>
+        </ol>
+      </nav>
+
+      <a href='/admin/addcoupon'>
+        <button type="button" class="btn btn-outline-primary"> Add Coupon</button>
+      </a>
+
+
+      <table class="table table-bordered" id="productTables" style="font-size: 14px; ">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Code</th>
+            <th scope="col">expirationDate</th>
+            <th scope="col">maxDiscount</th>
+            <th scope="col">MinPurchaseAmount</th>
+            <th scope="col">percentageOff</th>
+            <th scope="col">Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <% coupon.forEach((element,index) => {%>
+             <tr>
+            <th scope="row"><%=index+1 %></th>
+            <td><%=element.code %></td>
+            <td><%=element.expirationDate.toLocaleDateString()%></td>
+            <td><%=element.maxDiscount %></td>
+            <td><%=element.MinPurchaseAmount %></td>
+            <td><%=element.percentageOff %> %</td>
+            <td>
+              
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hi<%=element._id%>">
+  Edit
+</button>
+
+
+            <button class="btn btn-primary" onclick="deleteCoupon('<%=element._id%>')">Delete</a></button>
+
+            </td>
+
+       
+            
+          </tr>
+
+          <div class="modal fade" id="hi<%=element._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit Coupon</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="/admin/updateCoupon/<%=element._id%>" method="post">
+          
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Add code</label>
+                      <input type="text" name="code" class="form-control mt-1"  placeholder="Enter a unique Code" value="<%=element.code %>" required>         
+                    </div>
+            
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Expire Date</label>
+                      <input type="date" name="expirationDate" class="form-control mt-1" value="<%=element.expirationDate.toISOString().slice(0, 10) %>" required>
+
+      
+                    </div>
+            
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Maximum Discount</label>
+                      <input type="number" name="maxDiscount" class="form-control mt-1"  placeholder="Enter Maximum Disount" value="<%=element.maxDiscount %>" required>         
+                    </div>
+            
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Minimum Purchase Amount</label>
+                      <input type="number" name="MinPurchaseAmount" class="form-control mt-1"  placeholder="Enter Percentage off" value="<%=element.MinPurchaseAmount %>" required>         
+                    </div>
+            
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Percentage Off</label>
+                      <input type="number" name="percentageOff" class="form-control mt-1"  placeholder="Enter Percentage off" value="<%=element.percentageOff %>" required>         
+                    </div>
+                    
+                    <button style="margin-top: 10px;" type="submit" class="btn btn-primary">Submit</button>
+                    <% if(typeof message !=="undefined") { %>
+                      <h5 style="font-size: 14px;color: brown;"><%=message  %></h5>
+                      <%} %> 
+                  </form>
+                </div>
+               
+              </div>
+            </div>
+          </div>
+         <% }); %>
+         
+         
+      </table>
+
+    </div><!-- End Page Title -->
+
+
+
+  </main><!-- End #main -->
+
+
+
+
+
+
+<script>
+  function deleteCoupon(couponId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You wan't to delete!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'yes, delete!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        $.ajax({
+          url: "/admin/deleteCoupon",
+          data: {
+            coupon: couponId
+          },
+          method: "post",
+          success: (response) => {
+            Swal.fire({
+              title: 'deleted!',
+              text: 'Your deleted',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 700
+            })
+
+            location.href='/admin/couponview'
+          }
+        })
+      }
+    })
+  }
+  </script>
+
+  <%- include('../layout/admin/footer.ejs')%>

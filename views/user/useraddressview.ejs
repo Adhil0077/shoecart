@@ -1,0 +1,45 @@
+<%- include ('../layout/user/header.ejs') %>
+<%- include ('../layout/user/navbar.ejs') %>
+
+<div style="padding: 15px;">
+ <button class="btn btn-success mt-5 mb-3"> <a style="text-decoration: none;color: white;" href="/useraddAddressview">Add Address</a></button>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">phone Number</th>
+      <th scope="col">Action</th>
+      
+      
+      
+    </tr>
+  </thead>
+  <tbody>
+    <% userData.address.forEach((element,index) => {%>
+      <tr style="font-size: 18px;">
+      <th scope="row"><%=index+1 %></th>
+      <td><%= element.name %> </td>
+      <td> <%= element.housename%>, <%= element.pincode%>, <%= element.street%>, <%= element.district%>, <%= element.state%>, <%= element.country%> </td>
+      <td><%= element.phone%></td>
+      
+        <td>
+          <button type="button" class="btn btn-danger"><a class="text-decoration-none text-white"
+              href="/editaddress/<%= element._id %>">Edit</a></button>
+
+          <button class="btn btn-primary"><a class="text-decoration-none text-white"
+              href="/deleteaddress/<%= element._id %>">Delete</a></button>
+
+        </td>
+    </tr>
+   <% }); %>
+    
+ 
+  </tbody>
+</table>
+</div>
+
+
+
+<%- include ('../layout/user/footer.ejs') %>

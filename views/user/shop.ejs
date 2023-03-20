@@ -1,0 +1,184 @@
+<%- include ('../layout/user/header.ejs') %>
+  <%- include ('../layout/user/navbar.ejs') %>
+
+    <div class="colorlib-product">
+      <div class="container">
+
+        <div class="row row-pb-md  ">
+          <% product.forEach((element,index)=> {%>
+
+            <% if(element.unlist==false && element.category.unlist==false ){%>
+              <div class="col-lg-3 mb-4 text-center">
+                <div class="product-entry border">
+                  <a href="/shop/productdetail/<%=element._id %>" class="prod-img">
+                    <img src="/images/<%=element.image[0] %>" class="img-fluid" alt="Free html5 bootstrap 4 template">
+                  </a>
+                  <div class="desc">
+                    <h2 style="font-weight: bold;"><a href="#">
+                        <%= element.productName%>
+                      </a></h2>
+                    <span style="font-size: 14px; color: gray;" class="price">
+                      <%= element.category.category%>
+                    </span>
+                    <span class="star"> </span>
+                    <span style="font-size: 16px;" class="price">
+                      <%= element.description%>
+                    </span>
+                    <span style="color: red;" class="price">MRP: <%= element.price%> </span>
+                  </div>
+                  <% if(element.stock!=0) {%>
+                    <button type="button" class="btn btn-success"
+                      onclick="tocart('<%= element._id%>','<%=element.price%>')">Add to Cart</a></button>
+
+                    <button type="button" class="btn btn-warning"
+                      onclick="towishlist('<%= element._id%>','<%=element.price%>')">
+                      <a style="color: white;">Wish List</a></button>
+                    <%}else{%>
+                      <button type="button" class="btn btn-danger">Out Of Stock</button>
+                      <button type="button" class="btn btn-warning"
+                      onclick="towishlist('<%= element._id%>','<%=element.price%>')">
+                      <a style="color: white;">Wish List</a></button>
+                      <%}%>
+                </div>
+              </div>
+
+
+
+
+              <%}%>
+
+
+                <%}); %>
+
+
+        </div>
+
+      </div>
+
+
+
+
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="block-27">
+            <ul>
+              <li><a href="#"><i class="ion-ios-arrow-back"></i></a></li>
+              <% for(let j=1;j<procounts;j++) {%>
+
+                <li class="active"><a href="?page=<%=j %>">
+                    <%=j %>
+                  </a></li>
+
+                <%}%>
+
+
+
+                  <li><a href="#"><i class="ion-ios-arrow-forward"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      function towishlist(proId, price) {
+        $.ajax({
+          url: '/towishlist',
+          data: {
+            product: proId,
+            price: price
+          },
+          method: 'post',
+          success: (Response) => {
+            if (Response.incart) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: 'Already in Cart',
+                showConfirmButton: false,
+                timer: 700
+              })
+            } else if (Response.already) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: 'Already in Wishlist',
+                showConfirmButton: false,
+                timer: 700
+              })
+            }
+            else if (Response.added) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Item Added to Wishlist',
+                showConfirmButton: false,
+                timer: 700
+              })
+            }else if(Response.login){
+          Swal.fire({
+          position: 'top-end',
+          icon: 'info',
+          title: 'You Need to Login',
+          showConfirmButton: false,
+          timer: 700
+        })
+        }
+
+            $('.reloadDiv').load('/shop .reloadDiv')
+          }
+        })
+      }
+
+    </script>
+
+
+
+
+
+    <script>
+      function tocart(proId, price) {
+        $.ajax({
+          url: '/tocart',
+          data: {
+            product: proId,
+            price: price
+          },
+          method: 'post',
+          success: (Response) => {
+            if (Response.alreadyInCart) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: 'Item Already in Cart',
+                showConfirmButton: false,
+                timer: 700
+              })
+            } else if (Response.added) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Item Added to Cart',
+                showConfirmButton: false,
+                timer: 700
+              })
+            } else if (Response.login) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'info',
+                title: 'You Need to Login',
+                showConfirmButton: false,
+                timer: 700
+              })
+            }
+
+            $('.reloadDiv').load('/shop .reloadDiv')
+          }
+        })
+      }
+
+    </script>
+
+    <%- include ('../layout/user/footbar.ejs') %>
+      <%- include ('../layout/user/footer.ejs') %>

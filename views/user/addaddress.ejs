@@ -1,0 +1,144 @@
+<%- include ('../layout/user/header.ejs') %>
+  <%- include ('../layout/user/navbar.ejs') %>
+
+    <div id="addaddress" class="container mt-4" style="font-size: large;">
+      <form method="post" id="myForm">
+        <div class="row">
+
+          <div class="col-md-6 ">
+            <div class="profile-head">
+              <h5>
+                Add Address
+              </h5>
+
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                    aria-controls="home" aria-selected="true">About</a>
+                    
+                </li>
+              </ul>
+            </div>
+          </div>
+       
+
+          <div class="col-md-8" style="color: black;font-weight: bold;">
+            <div class="tab-content profile-tab" id="myTabContent">
+              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row">
+                  <div class="col-md-6">
+                    Name:
+                    <input type="text" class="form-control" placeholder="Enter Your Full Name" name="username" id="username" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    House Name:
+                    <input type="text" class="form-control" placeholder="Enter Housename" name="userhousename" id="userhousename" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    Street:
+                    <input type="text" class="form-control" placeholder="Enter Street Name" name="userstreet" id="userstreet" required>
+
+                  </div>
+                  <div class="col-md-6">
+                    District:
+                    <input type="text" class="form-control" placeholder="Enter your District " name="userdistrict" id="userdistrict"
+                      required>
+                      
+                  </div>
+                  <div class="col-md-6">
+                    
+                      
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    State:
+                    <input type="text" class="form-control" placeholder="Enter your State " name="userstate" id="userstate" required>
+
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    Phone:
+                    <input type="text" class="form-control" placeholder="Enter your Phone Number "
+                      name="userphonenumber" id="userphonenumber" required>
+
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    Pincode:
+                    <input type="text" class="form-control" placeholder="Enter your Pincode " name="userpincode"
+                      id="userpincode" required>
+
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    Country:
+                    <input type="text" class="form-control mb-5" placeholder="Enter your Country " name="usercountry"
+                      id="usercountry" required>
+
+                  </div>
+
+                  <button type="submit" style="margin-bottom:36px ;font-weight: bold;padding: 22px; width:274px" class="btn btn-outline-warning" >Submit</button>
+                 
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <% if(typeof message !=="undefined") { %>
+          <h5 style="font-size: 14px;color: brown;"><%=message  %></h5>
+          <%} %> 
+      </form>
+    </div>
+  
+
+<script>
+
+
+document.querySelector('#myForm').addEventListener('submit', function(e) {
+  e.preventDefault(); // prevent the form from submitting
+
+  // get all the input fields in the form
+  const inputs = document.querySelectorAll('#myForm input');
+
+  // loop through each input field and check if it's empty or contains only spaces
+  let isValid = true;
+  inputs.forEach(function(input) {
+    if (input.value.trim() === '') {
+      isValid = false;
+      input.classList.add('is-invalid'); // add an "is-invalid" class to the input field
+    } else {
+      input.classList.remove('is-invalid'); // remove the "is-invalid" class if it's not empty
+    }
+  });
+
+  // if any input field is empty or contains only spaces, show an error message
+  if (!isValid) {
+    const errorMessage = document.createElement('div');
+    errorMessage.classList.add('invalid-feedback');
+    errorMessage.innerText = 'Please fill in all required fields.';
+    document.querySelector('#myForm button[type="submit"]').insertAdjacentElement('beforebegin', errorMessage);
+  } else {
+    document.querySelector('#myForm').submit(); // submit the form if all input fields are valid
+  }
+});
+
+
+
+
+</script>
+
+    <%- include ('../layout/user/footer.ejs') %>

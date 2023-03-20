@@ -1,0 +1,94 @@
+<%- include('../layout/admin/header.ejs')%>
+
+
+<div class="container">
+
+  <div class="pagetitle">
+    <h1 class="mt-5">Order Detail</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/orders">Back</a></li>
+        <li class="breadcrumb-item active">Single Order View</li>
+      </ol>
+    </nav>
+
+  </div><!-- End Page Title -->
+  <div class="card text-center">
+    <div class="card-header">
+      
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Order ID</h5>
+      <p class="card-text"><%=ordersDetails.orderId %></p>
+
+      <table class="table table-bordered" id="productTables">
+        <thead>
+          <tr>
+            <th scope="col">Address</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total price</th>
+            <th scope="col">Total Cart price</th>
+            <th scope="col">Payment</th>
+            <th scope="col">Status</th> 
+          </tr>
+        </thead>
+        <tbody>
+  
+
+          <tr>
+            
+        <td style="width: 450px;"><%=ordersDetails.deliveryAddress %></td>
+
+
+        <td  style="width: 200px;">
+          <% ordersDetails.product.forEach(data => { %>
+            ‣<%= data.productId.productName %> <br>
+          <% });  %>
+        </td>
+
+
+        <td  style="width: 70px; text-align: center;"><% ordersDetails.product.forEach(data => {%>
+          <%=data.quantity  %> <br>
+       <% }); %></td>
+
+
+
+             <td><%ordersDetails.product.forEach(data => {%>
+              <%=data.productId.price %><br>
+        <%});  %></td> 
+
+        <td><%ordersDetails.product.forEach(data => {%>
+          <%=data.singleTotal %><br>
+    <%});  %></td> 
+
+        <td style="width: 450px;"><%=ordersDetails.total%></td>
+
+
+        <td  style="width: 100px;">
+          <%=ordersDetails.paymentType  %>
+        </td>
+
+
+        <td  style="width: 100px;">
+          <%=ordersDetails.status  %>
+        </td>
+
+          </tr>
+    
+        </tbody>
+      </table>
+
+     
+    </div>
+    <div class="card-footer text-muted">
+     <a href="/admin/orders" class="btn btn-primary">Go Back</a>
+    </div>
+  </div>
+</div>
+
+
+
+
+<%- include('../layout/admin/footer.ejs')%>

@@ -1,0 +1,38 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+
+    
+    <main id="main" class="main">
+
+      <div class="pagetitle">
+        <h1>Banner</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Add Banner</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+      <form id="myForm" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Add Image</label>
+          <input type="file"  name="files" class="form-control" id="imageBanner" aria-describedby="emailHelp" >
+          <small id="emailHelp" class="form-text text-muted"></small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Description</label>
+          <input type="text" name="bannerDes" class="form-control" id="bannerDescription" >
+        </div>
+        
+        <button type="submit" class="btn btn-primary" >Submit</button>
+      </form>
+      <% if(typeof message !=="undefined") { %>
+        <h5 style="font-size: 14px;color: brown;"><%=message  %></h5>
+        <%} %> 
+  
+    </main><!-- End #main -->
+  
+
+    <%- include('../layout/admin/footer.ejs')%>

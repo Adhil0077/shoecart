@@ -1,0 +1,175 @@
+<%- include ('../layout/user/header.ejs') %>
+  <%- include ('../layout/user/navbar.ejs') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+      integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+    <div class="breadcrumbs">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <p class="bread"><span><a href="/">Home</a></span> / <span>Whish List</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% if(userData.wishlist[0]){ %>
+      <div class="colorlib-product">
+        <div class="container">
+
+          <div class="row row-pb-lg">
+            <div class="col-md-12 reloadDiv">
+              <div class="product-name d-flex">
+                <div class="one-forth text-left px-4">
+                  <span>Product Details</span>
+                </div>
+
+                <div class="one-eight text-center">
+                  <span>Price</span>
+                </div>
+                <div class="one-eight text-center px-4">
+                  <span>Remove</span>
+                </div>
+              </div>
+              <% userData.wishlist.forEach((element,i)=>{%>
+                <div class="product-cart d-flex">
+                  <div class="one-forth">
+                    <div>
+                      <img src="/images/<%=element.product.image[0]%>" alt="" width="150px">
+                    </div>
+                    <div class="display-tc">
+                      <h3 class="font-weight-bold">
+                        <%=element.product.productName%>
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div class="one-eight text-center">
+                    <div class="display-tc">
+                      <span class="price font-weight-bold">
+                        <%=element.product.price %>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="one-eight  text-center">
+                    <div class="display-tc">
+                      <button type="button" class="btn btn-danger"
+                        onclick="wishlistremove('<%=element.product._id %> ')">Remove</button>
+                    </div>
+                  </div>
+<% if(element.product.stock!=0) {%>
+
+                  <div class="one-eight  text-center">
+                    <div class="display-tc">
+
+                      <button type="button" class="btn btn-success"
+                        onclick="toCart('<%=element.product._id %>','<%=element.product.price%>' )">Add to Cart</button>
+
+                    </div>
+                  </div>
+
+  <%}else{%>
+    <div class="one-eight  text-center">
+      <div class="display-tc">
+
+        <button type="button" class="btn btn-danger"
+           >Out Of Stock</button>
+
+      </div>
+    </div>
+
+
+    <%}%>
+
+
+
+                </div>
+
+
+                <% }); %>
+                  <% }else{ %>
+                    <div class="container" id="emptycart"
+                      style="display: flex; flex-direction: column; align-items: center;">
+                      <div>
+                        <img
+                          src="https://cdni.iconscout.com/illustration/premium/thumb/confusing-woman-due-to-empty-cart-4558760-3780056.png"
+                          alt="">
+                      </div>
+                      <button class="btn btn-success mt-5"><a href="/shop"
+                          style="text-decoration: none;color: white;font-weight: 600;">Shop Now</a></button>
+                    </div>
+
+                    <%}%>
+            </div>
+          </div>
+        </div>
+
+
+        <script>
+          function toCart(proId, price) {
+            $.ajax({
+              url: "/tocart",
+              data: {
+                product: proId,
+                price: price
+              },
+              method: "post",
+              success: (Response) => {
+                Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Item Added to Cart',
+          showConfirmButton: false,
+          timer: 700
+        })
+                $('.reloadDiv').load('/wishlist .reloadDiv')
+              }
+            })
+          }
+        </script>
+
+        <script>
+          function wishlistremove(proId) {
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "You wan't to delete!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'yes, delete!'
+            }).then((result) => {
+              if (result.isConfirmed) {
+
+                $.ajax({
+                  url: "/wishlistdelete",
+                  data: {
+                    product: proId
+                  },
+                  method: "post",
+                  success: (response) => {
+                    Swal.fire({
+                      title: 'deleted!',
+                      text: 'Your deleted',
+                      icon: 'success',
+                      showConfirmButton: false,
+                      timer: 700
+                    })
+
+                    $('.reloadDiv').load('/wishlist .reloadDiv')
+                  }
+                })
+              }
+            })
+          }
+        </script>
+
+
+
+
+
+
+        <%- include ('../layout/user/footer.ejs') %>

@@ -1,0 +1,55 @@
+<%- include ('../layout/user/header.ejs') %>
+  <%- include ('../layout/user/navbar.ejs') %>
+    <div class="container mt-4">
+      <table class="table" style="font-size: 13px; font-weight: bold;" id="productTables">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Qty </th>
+            <th scope="col">Price</th>
+            <th scope="col">Cart Total</th>
+            <th scope="col">Status</th>
+            <th scope="col">view</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% ordersDetails.forEach((element,index)=> {%>
+            <tr>
+              <td>
+                <% element.product.forEach((product)=> { %>
+                  <img style="width: 100px;" src="/images/<%= product.productId.image[0]%>" alt="" srcset="">
+                  <% }) %>
+              </td>
+              <td>
+                <% element.product.forEach(data=> { %>
+                  <%= data.productId.productName %> <br>
+                    <% }); %>
+              </td>
+              <td>
+                <% element.product.forEach(data=> {%>
+                  <%=data.quantity %> <br>
+                    <% }); %>
+              </td>
+              <td>
+                <%element.product.forEach(data=> {%>
+                  <%=data.productId.singlePrice %><br>
+                    <%}); %>
+              </td>
+              <td>
+                <%=element.total %><br>
+              </td>
+              <td>
+                <%=element.status %><br>
+              </td>
+              <td style="text-align:center;">
+                <a href="/userorders/<%=element._id%>">
+                  <i class="fa-solid fa-eye"></i>
+                </a>
+              </td>
+            </tr>
+            <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <%- include ('../layout/user/footer.ejs') %>

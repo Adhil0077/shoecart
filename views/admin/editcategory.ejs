@@ -1,0 +1,36 @@
+<%- include('../layout/admin/header.ejs')%>
+<%- include('../layout/admin/navbar.ejs')%>
+<%- include('../layout/admin/sidebar.ejs')%>
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Edit category</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item active">Edit category</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <form action="" method="post">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Edit Category</label>
+      <input type="text" name="newcategory" class="form-control mt-1"  placeholder="Add new category" value="<%= vcategory.category%>" required>
+      
+    </div>
+    <div  class="form-group mt-3">
+      <label for="exampleInputPassword1">Edit Description</label>
+      <input style="height:100px" type="text" name="newdescription" class="form-control mt-1"  value="<%=vcategory.description%>" required>
+    </div>
+    
+    <button style="margin-top: 10px;" type="submit" class="btn btn-primary">Submit</button>
+    <% if(typeof message !=="undefined") { %>
+      <h5 style="font-size: 14px;color: brown;"><%=message %></h5>
+      <%} %> 
+  </form>
+
+</main><!-- End #main -->
+
+<%- include('../layout/admin/footer.ejs')%>

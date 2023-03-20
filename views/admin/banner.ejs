@@ -1,0 +1,106 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+      <main id="main" >
+
+        <div class="pagetitle">
+          <h1>Banner</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Banner Management</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+
+
+        <!-- Button trigger modal -->
+        <button type="button" data-toggle="modal" data-target="#exampleMoal"  class="btn btn-primary mb-4">
+          <a style="color: white;"
+            href="/admin/addbanner">Add
+            Banner</a></button>
+        <div class="main">
+
+          <table class="table">
+
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Banner</th>
+                <th scope="col">Description</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% banner.forEach((element,index)=> {%>
+                <tr>
+                  <th scope="row">
+                    <%=index+1%>
+                  </th>
+                  <td><img style="width: 75px;" src="/images/<%=element.img%>" alt="" srcset=""></td>
+                  <td>
+                    <%=element.description%>
+                  </td>
+                  <td>
+                    <button type="submit" class="btn btn-danger" onclick="deleteBanner('<%=element._id%>')"><i
+                        class="fa-solid fa-trash"></i></button>
+                  </td>
+                  
+                 
+
+
+
+                </tr>
+                <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </main><!-- End #main -->
+
+
+      <script>
+        function deleteBanner(bannerId) {
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "You wan't to delete!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'yes, delete!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                url: '/admin/deletebanner',
+                data: {
+                  banner: bannerId
+                },
+
+                method: "post",
+                success: (response) => {
+                  Swal.fire({
+                    title: 'deleted!',
+                    text: 'Your deleted',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 700
+                  })
+
+                  $('.main').load('/admin/banner .main')
+                }
+              })
+            }
+          })
+        }
+      </script>
+
+
+
+
+
+      <%- include('../layout/admin/footer.ejs')%>

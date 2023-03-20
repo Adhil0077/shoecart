@@ -1,0 +1,53 @@
+<%- include('../layout/admin/header.ejs')%>
+  <%- include('../layout/admin/navbar.ejs')%>
+    <%- include('../layout/admin/sidebar.ejs')%>
+
+    <main id="main" class="main">
+
+      <div class="pagetitle">
+        <h1>Add Coupon</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Add Coupon</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+    
+      <form action="" method="post">
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Add code</label>
+          <input type="text" name="code" class="form-control mt-1"  placeholder="Enter a unique Code" required>         
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Expire Date</label>
+          <input type="date" name="expirationDate" class="form-control mt-1"  placeholder="Enter Expiry Date" required>         
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Maximum Discount</label>
+          <input type="number" name="maxDiscount" class="form-control mt-1"  placeholder="Enter Maximum Disount" required>         
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Minimum Purchase Amount</label>
+          <input type="number" name="MinPurchaseAmount" class="form-control mt-1"  placeholder="Enter Percentage off" required>         
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Percentage Off</label>
+          <input type="number" name="percentageOff" class="form-control mt-1"  placeholder="Enter Percentage off" required>         
+        </div>
+        
+        <button style="margin-top: 10px;" type="submit" class="btn btn-primary">Submit</button>
+        <% if(typeof message !=="undefined") { %>
+          <h5 style="font-size: 14px;color: brown;"><%=message  %></h5>
+          <%} %> 
+      </form>
+    
+    </main><!-- End #main -->
+
+
+    <%- include('../layout/admin/footer.ejs')%>
